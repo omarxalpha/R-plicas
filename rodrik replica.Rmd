@@ -9,7 +9,7 @@ output:
 
 En el documento de 2008 de Dani Rodrik ( _The Real Exchange Rate and Economic Growth_ ), se vislumbra un análisis sobre los mecanismos que entran en juego para que una depreciación en el Tipo de Cambio Real ( _TCR_, en adelante) pueda mostrar un efecto positivo en el producto. La primera parte de la propuesta de Rodrik tiene un caracter puramente empirico. 
 
-Al utilizar los datos de [Penn World Table](https://www.rug.nl/ggdc/productivity/pwt/?lang=en) 6.2, Rodrik encuentra una correlación estadísticamente significativa entre los países en desarrollo que muestran una constante subvaluación del TCR y un crecimiento en el producto. A lo largo de las siguientes secciones se realiza una revisión de los conceptos económicos y de la manipulación de los datos que permiten la réplica de dicho documento, así como un modesto intento por actualizar el documento con los datos más recientes de la _PWT_ .
+Al utilizar los datos de [Penn World Table](https://www.rug.nl/ggdc/productivity/pwt/?lang=en) 6.2, Rodrik encuentra una correlación estadísticamente significativa entre los países en desarrollo que muestran una constante subvaluación del TCR y un crecimiento en el producto. A lo largo de las siguientes secciones se realiza una revisión de los conceptos económicos y de la manipulación de los datos que permiten la réplica de dicho documento, así como un modesto intento por actualizar el documento con los datos más recientes de la _PWTT_ .
 
 ## Obtención de los datos
 
