@@ -77,21 +77,22 @@ pwt91 <- pwt9.1 %>%
        lnRER = log((pl_gdpo^-1)))
 reg2 <- lm(lnRER ~ lnRGDPCH + factor(year), data = pwt91)
 #summary(reg2)
+omit1 =  c('factor\\(year\\)1959',
+           'factor\\(year\\)1964',
+           'factor\\(year\\)1969',
+           'factor\\(year\\)1974',
+           'factor\\(year\\)1979',
+           'factor\\(year\\)1984',
+           'factor\\(year\\)1989',
+           'factor\\(year\\)1994',
+           'factor\\(year\\)1999',
+           'factor\\(year\\)2004',
+           'factor\\(year\\)2009',
+           'factor\\(year\\)2014')
 
 stargazer('PWT 6.1' = reg1, "PWT 9.1" = reg2, title="PWT6.2", type="html",
           column.labels = c('PWT 6.2', 'PWT 9.1'),
-          out = "./output.html",digits = 2, omit = c('factor\\(year\\)1959',
-                                                     'factor\\(year\\)1964',
-                                                     'factor\\(year\\)1969',
-                                                     'factor\\(year\\)1974',
-                                                     'factor\\(year\\)1979',
-                                                     'factor\\(year\\)1984',
-                                                     'factor\\(year\\)1989',
-                                                     'factor\\(year\\)1994',
-                                                     'factor\\(year\\)1999',
-                                                     'factor\\(year\\)2004',
-                                                     'factor\\(year\\)2009',
-                                                     'factor\\(year\\)2014'))
+          digits = 2, omit =omit1)
 
 ```
 
@@ -99,7 +100,7 @@ stargazer('PWT 6.1' = reg1, "PWT 9.1" = reg2, title="PWT6.2", type="html",
 
 You can also embed plots, for example:
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE,}
 pwt62q$lnRERhat[!is.na(pwt62q$lnRER)] = reg1$fitted.values
 pwt62q = pwt62q %>%
   mutate(UNDERVAL = lnRER -lnRERhat)
@@ -128,15 +129,19 @@ ggplot()+
 
 ## Crecimiento y subvaluación 
 
-```{r}
+```{r,results='asis', message=FALSE}
 pwt62q = pwt62q %>%
   filter(!(country %in% c('Iraq', 'Laos', 'Korea, Republic of')))
 
-
+omit2 =  paste('factor\\(country\\)',unique(pwt62q$country), sep = "")
 
 reg3 = lm(Delta_GDP~initial_Y+UNDERVAL+factor(country)+factor(year), data=pwt62q)
-summary(reg3)
+#summary(reg3)
 
 reg4 = lm(Delta_GDP~initial_Y+UNDERVAL+factor(country)+factor(year), data=pwt62q[pwt62q$rgdpch<6000,])
-summary(reg4)
+#summary(reg4)
+
+stargazer('PWT 6.1' = reg3, "PWT 9.1" = reg4, title="PWT6.2", type="html",
+          column.labels = c('PWT 6.2', 'PWT 9.1'),
+          digits = 2, omit =c(omit1,omit2))
 ```

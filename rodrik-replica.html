@@ -1683,21 +1683,22 @@ reg1 &lt;- lm(lnRER ~ lnRGDPCH + factor(year), data = pwt62q)</code></pre>
        lnRER = log((pl_gdpo^-1)))
 reg2 &lt;- lm(lnRER ~ lnRGDPCH + factor(year), data = pwt91)
 #summary(reg2)
+omit1 =  c(&#39;factor\\(year\\)1959&#39;,
+           &#39;factor\\(year\\)1964&#39;,
+           &#39;factor\\(year\\)1969&#39;,
+           &#39;factor\\(year\\)1974&#39;,
+           &#39;factor\\(year\\)1979&#39;,
+           &#39;factor\\(year\\)1984&#39;,
+           &#39;factor\\(year\\)1989&#39;,
+           &#39;factor\\(year\\)1994&#39;,
+           &#39;factor\\(year\\)1999&#39;,
+           &#39;factor\\(year\\)2004&#39;,
+           &#39;factor\\(year\\)2009&#39;,
+           &#39;factor\\(year\\)2014&#39;)
 
 stargazer(&#39;PWT 6.1&#39; = reg1, &quot;PWT 9.1&quot; = reg2, title=&quot;PWT6.2&quot;, type=&quot;html&quot;,
           column.labels = c(&#39;PWT 6.2&#39;, &#39;PWT 9.1&#39;),
-          out = &quot;./output.html&quot;,digits = 2, omit = c(&#39;factor\\(year\\)1959&#39;,
-                                                     &#39;factor\\(year\\)1964&#39;,
-                                                     &#39;factor\\(year\\)1969&#39;,
-                                                     &#39;factor\\(year\\)1974&#39;,
-                                                     &#39;factor\\(year\\)1979&#39;,
-                                                     &#39;factor\\(year\\)1984&#39;,
-                                                     &#39;factor\\(year\\)1989&#39;,
-                                                     &#39;factor\\(year\\)1994&#39;,
-                                                     &#39;factor\\(year\\)1999&#39;,
-                                                     &#39;factor\\(year\\)2004&#39;,
-                                                     &#39;factor\\(year\\)2009&#39;,
-                                                     &#39;factor\\(year\\)2014&#39;))</code></pre>
+          digits = 2, omit =omit1)</code></pre>
 <table style="text-align:center">
 <caption>
 <strong>PWT6.2</strong>
@@ -1913,716 +1914,228 @@ ggplot(pwt91)+
 <pre class="r"><code>pwt62q = pwt62q %&gt;%
   filter(!(country %in% c(&#39;Iraq&#39;, &#39;Laos&#39;, &#39;Korea, Republic of&#39;)))
 
-
+omit2 =  paste(&#39;factor\\(country\\)&#39;,unique(pwt62q$country), sep = &quot;&quot;)
 
 reg3 = lm(Delta_GDP~initial_Y+UNDERVAL+factor(country)+factor(year), data=pwt62q)
-summary(reg3)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = Delta_GDP ~ initial_Y + UNDERVAL + factor(country) + 
-##     factor(year), data = pwt62q)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -0.24774 -0.01417  0.00000  0.01395  0.34345 
-## 
-## Coefficients:
-##                                            Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept)                                0.226493   0.031483   7.194 1.21e-12
-## initial_Y                                 -0.030890   0.003467  -8.908  &lt; 2e-16
-## UNDERVAL                                   0.004342   0.003067   1.416 0.157187
-## factor(country)Albania                     0.074538   0.028820   2.586 0.009837
-## factor(country)Algeria                     0.069420   0.020022   3.467 0.000547
-## factor(country)Antigua                     0.123497   0.021985   5.617 2.49e-08
-## factor(country)Argentina                   0.091523   0.019387   4.721 2.67e-06
-## factor(country)Australia                   0.121383   0.020125   6.032 2.26e-09
-## factor(country)Austria                     0.123931   0.019682   6.297 4.49e-10
-## factor(country)Azerbaijan                  0.115476   0.038135   3.028 0.002522
-## factor(country)Bahamas                     0.120092   0.021885   5.487 5.13e-08
-## factor(country)Bahrain                     0.100140   0.022844   4.384 1.29e-05
-## factor(country)Bangladesh                  0.036781   0.021306   1.726 0.084590
-## factor(country)Barbados                    0.105479   0.020366   5.179 2.68e-07
-## factor(country)Belgium                     0.119637   0.019934   6.002 2.70e-09
-## factor(country)Belize                      0.078581   0.020663   3.803 0.000151
-## factor(country)Benin                       0.018586   0.019130   0.972 0.331509
-## factor(country)Bermuda                     0.134299   0.023576   5.696 1.60e-08
-## factor(country)Bhutan                      0.032066   0.021970   1.460 0.144730
-## factor(country)Bolivia                     0.043123   0.018759   2.299 0.021712
-## factor(country)Bosnia and Herzegovina      0.155683   0.038183   4.077 4.91e-05
-## factor(country)Botswana                    0.099337   0.020562   4.831 1.56e-06
-## factor(country)Brazil                      0.087526   0.018826   4.649 3.77e-06
-## factor(country)Brunei                      0.112410   0.023795   4.724 2.63e-06
-## factor(country)Bulgaria                    0.066342   0.029134   2.277 0.022982
-## factor(country)Burkina Faso                0.010615   0.018752   0.566 0.571479
-## factor(country)Burundi                    -0.001181   0.019746  -0.060 0.952302
-## factor(country)Cambodia                   -0.020955   0.021771  -0.962 0.336027
-## factor(country)Cameroon                    0.039545   0.019709   2.006 0.045077
-## factor(country)Canada                      0.121703   0.020151   6.040 2.15e-09
-## factor(country)Cape Verde                  0.072508   0.019664   3.687 0.000238
-## factor(country)Central African Republic    0.011184   0.021483   0.521 0.602749
-## factor(country)Chad                       -0.012434   0.019735  -0.630 0.528797
-## factor(country)Chile                       0.091988   0.018968   4.850 1.43e-06
-## factor(country)China                       0.059947   0.018413   3.256 0.001168
-## factor(country)Colombia                    0.072177   0.018620   3.876 0.000113
-## factor(country)Comoros                     0.025353   0.019613   1.293 0.196422
-## factor(country)Congo, Democratic Republic -0.037345   0.020686  -1.805 0.071309
-## factor(country)Congo, Republic of          0.027523   0.019767   1.392 0.164104
-## factor(country)Costa Rica                  0.080001   0.018884   4.236 2.47e-05
-## factor(country)Cote d&#39;Ivoire               0.047415   0.019683   2.409 0.016173
-## factor(country)Croatia                     0.099458   0.029217   3.404 0.000689
-## factor(country)Cuba                        0.080404   0.021632   3.717 0.000212
-## factor(country)Cyprus                      0.137866   0.021337   6.461 1.60e-10
-## factor(country)Czech Republic              0.098916   0.029514   3.352 0.000833
-## factor(country)Denmark                     0.120981   0.019865   6.090 1.59e-09
-## factor(country)Djibouti                    0.050683   0.022923   2.211 0.027255
-## factor(country)Dominica                    0.099404   0.021652   4.591 4.95e-06
-## factor(country)Dominican Republic          0.082445   0.018855   4.373 1.35e-05
-## factor(country)Ecuador                     0.063038   0.018484   3.410 0.000674
-## factor(country)Egypt                       0.061607   0.018319   3.363 0.000799
-## factor(country)El Salvador                 0.062502   0.018923   3.303 0.000989
-## factor(country)Equatorial Guinea           0.067165   0.019668   3.415 0.000663
-## factor(country)Eritrea                    -0.019954   0.029113  -0.685 0.493253
-## factor(country)Estonia                     0.116811   0.029279   3.990 7.09e-05
-## factor(country)Ethiopia                    0.013237   0.018531   0.714 0.475216
-## factor(country)Fiji                        0.053917   0.021623   2.493 0.012807
-## factor(country)Finland                     0.115957   0.019847   5.843 6.88e-09
-## factor(country)France                      0.122579   0.019710   6.219 7.26e-10
-## factor(country)Gabon                       0.079948   0.020455   3.909 9.89e-05
-## factor(country)Gambia, The                 0.008594   0.019804   0.434 0.664415
-## factor(country)Georgia                     0.124268   0.028881   4.303 1.85e-05
-## factor(country)Germany                     0.121189   0.022050   5.496 4.89e-08
-## factor(country)Ghana                       0.067328   0.019226   3.502 0.000482
-## factor(country)Greece                      0.110783   0.019259   5.752 1.16e-08
-## factor(country)Grenada                     0.071168   0.021563   3.300 0.000998
-## factor(country)Guatemala                   0.060587   0.018840   3.216 0.001341
-## factor(country)Guinea                      0.034815   0.018661   1.866 0.062370
-## factor(country)Guinea-Bissau               0.001558   0.020055   0.078 0.938092
-## factor(country)Haiti                       0.021317   0.021331   0.999 0.317850
-## factor(country)Honduras                    0.040714   0.018261   2.230 0.025991
-## factor(country)Hong Kong                   0.132752   0.020403   6.506 1.20e-10
-## factor(country)Hungary                     0.100426   0.021165   4.745 2.38e-06
-## factor(country)Iceland                     0.122538   0.019809   6.186 8.89e-10
-## factor(country)India                       0.050826   0.018248   2.785 0.005446
-## factor(country)Indonesia                   0.066168   0.019045   3.474 0.000534
-## factor(country)Iran                        0.073726   0.019556   3.770 0.000173
-## factor(country)Ireland                     0.118120   0.019426   6.080 1.69e-09
-## factor(country)Israel                      0.114734   0.019476   5.891 5.19e-09
-## factor(country)Italy                       0.121520   0.019503   6.231 6.75e-10
-## factor(country)Jamaica                     0.067828   0.018978   3.574 0.000368
-## factor(country)Japan                       0.129386   0.019675   6.576 7.65e-11
-## factor(country)Jordan                      0.073805   0.019029   3.879 0.000112
-## factor(country)Kazakhstan                  0.047039   0.038432   1.224 0.221242
-## factor(country)Kenya                       0.024232   0.018631   1.301 0.193680
-## factor(country)Kiribati                    0.013287   0.021436   0.620 0.535483
-## factor(country)Korea, Dem. Rep.            0.050616   0.021403   2.365 0.018220
-## factor(country)Kuwait                      0.130435   0.023702   5.503 4.71e-08
-## factor(country)Kyrgyzstan                  0.093162   0.038166   2.441 0.014814
-## factor(country)Latvia                      0.105746   0.038371   2.756 0.005956
-## factor(country)Lebanon                     0.113988   0.038304   2.976 0.002989
-## factor(country)Lesotho                     0.039804   0.019673   2.023 0.043298
-## factor(country)Liberia                    -0.027736   0.021362  -1.298 0.194432
-## factor(country)Lithuania                   0.116628   0.029241   3.988 7.12e-05
-## factor(country)Luxembourg                  0.134006   0.020090   6.670 4.15e-11
-## factor(country)Macao                       0.146769   0.021870   6.711 3.19e-11
-## factor(country)Macedonia                   0.070959   0.038252   1.855 0.063878
-## factor(country)Madagascar                 -0.002218   0.019123  -0.116 0.907703
-## factor(country)Malawi                      0.009530   0.018424   0.517 0.605079
-## factor(country)Malaysia                    0.102675   0.019416   5.288 1.51e-07
-## factor(country)Maldives                    0.084974   0.020393   4.167 3.35e-05
-## factor(country)Mali                        0.018945   0.019135   0.990 0.322376
-## factor(country)Malta                       0.131038   0.021323   6.146 1.14e-09
-## factor(country)Mauritania                  0.024857   0.021320   1.166 0.243933
-## factor(country)Mauritius                   0.097332   0.019091   5.098 4.07e-07
-## factor(country)Mexico                      0.085420   0.018630   4.585 5.09e-06
-## factor(country)Micronesia, Fed. Sts.       0.057552   0.021550   2.671 0.007691
-## factor(country)Moldova                     0.032204   0.028794   1.118 0.263643
-## factor(country)Mongolia                    0.034063   0.021606   1.577 0.115199
-## factor(country)Morocco                     0.071484   0.018744   3.814 0.000145
-## factor(country)Mozambique                  0.027717   0.019666   1.409 0.159018
-## factor(country)Namibia                     0.069452   0.021717   3.198 0.001426
-## factor(country)Nepal                       0.022564   0.019702   1.145 0.252365
-## factor(country)Netherlands                 0.117690   0.020092   5.858 6.31e-09
-## factor(country)Netherlands Antilles        0.100906   0.022587   4.468 8.79e-06
-## factor(country)New Zealand                 0.113329   0.020027   5.659 1.97e-08
-## factor(country)Nicaragua                   0.057086   0.018499   3.086 0.002084
-## factor(country)Niger                      -0.009754   0.019095  -0.511 0.609610
-## factor(country)Nigeria                     0.017930   0.018028   0.995 0.320184
-## factor(country)Norway                      0.117910   0.019534   6.036 2.20e-09
-## factor(country)Oman                        0.111910   0.022444   4.986 7.22e-07
-## factor(country)Pakistan                    0.043244   0.018191   2.377 0.017627
-## factor(country)Palau                       0.090836   0.025527   3.558 0.000390
-## factor(country)Panama                      0.077319   0.019060   4.057 5.35e-05
-## factor(country)Papua New Guinea            0.086348   0.021486   4.019 6.28e-05
-## factor(country)Paraguay                    0.064750   0.018914   3.423 0.000643
-## factor(country)Peru                        0.056234   0.018966   2.965 0.003097
-## factor(country)Philippines                 0.056868   0.018344   3.100 0.001987
-## factor(country)Poland                      0.085503   0.020825   4.106 4.35e-05
-## factor(country)Portugal                    0.110473   0.018856   5.859 6.27e-09
-## factor(country)Puerto Rico                 0.123549   0.022430   5.508 4.58e-08
-## factor(country)Qatar                       0.106471   0.024116   4.415 1.12e-05
-## factor(country)Romania                     0.086643   0.019357   4.476 8.45e-06
-## factor(country)Russia                      0.067623   0.038510   1.756 0.079389
-## factor(country)Rwanda                      0.002598   0.019656   0.132 0.894863
-## factor(country)Samoa                       0.042941   0.021495   1.998 0.046008
-## factor(country)Sao Tome and Principe       0.018786   0.020316   0.925 0.355329
-## factor(country)Saudi Arabia                0.074833   0.023180   3.228 0.001285
-## factor(country)Senegal                     0.017261   0.019667   0.878 0.380339
-## factor(country)Serbia and Montenegro       0.003988   0.038460   0.104 0.917432
-## factor(country)Sierra Leone               -0.025550   0.021322  -1.198 0.231080
-## factor(country)Singapore                   0.136495   0.020418   6.685 3.78e-11
-## factor(country)Slovak Republic             0.084780   0.025604   3.311 0.000961
-## factor(country)Slovenia                    0.123316   0.029704   4.151 3.58e-05
-## factor(country)Solomon Islands             0.049009   0.021349   2.296 0.021896
-## factor(country)Somalia                    -0.012133   0.020382  -0.595 0.551779
-## factor(country)South Africa                0.073596   0.018463   3.986 7.19e-05
-## factor(country)Spain                       0.117556   0.019141   6.142 1.16e-09
-## factor(country)Sri Lanka                   0.055476   0.018261   3.038 0.002441
-## factor(country)St. Kitts &amp; Nevis           0.120832   0.021873   5.524 4.19e-08
-## factor(country)St. Lucia                   0.093202   0.021680   4.299 1.88e-05
-## factor(country)St. Vincent &amp; Grenadines    0.098728   0.021530   4.586 5.08e-06
-## factor(country)Sudan                       0.006582   0.021423   0.307 0.758716
-## factor(country)Suriname                    0.081400   0.021576   3.773 0.000171
-## factor(country)Swaziland                   0.086198   0.021016   4.102 4.43e-05
-## factor(country)Sweden                      0.116333   0.019799   5.876 5.68e-09
-## factor(country)Switzerland                 0.124654   0.020338   6.129 1.26e-09
-## factor(country)Syria                       0.044851   0.020008   2.242 0.025197
-## factor(country)Taiwan                      0.119738   0.018840   6.355 3.11e-10
-## factor(country)Tajikistan                  0.009341   0.038165   0.245 0.806692
-## factor(country)Tanzania                    0.006942   0.020028   0.347 0.728938
-## factor(country)Thailand                    0.078828   0.018702   4.215 2.72e-05
-## factor(country)Togo                        0.008205   0.019038   0.431 0.666593
-## factor(country)Tonga                       0.075125   0.021368   3.516 0.000458
-## factor(country)Trinidad &amp; Tobago           0.102066   0.019672   5.188 2.55e-07
-## factor(country)Tunisia                     0.082000   0.019309   4.247 2.36e-05
-## factor(country)Turkey                      0.077568   0.018407   4.214 2.73e-05
-## factor(country)Turkmenistan                0.073821   0.038595   1.913 0.056060
-## factor(country)Uganda                      0.014973   0.018619   0.804 0.421473
-## factor(country)Ukraine                     0.023172   0.038453   0.603 0.546909
-## factor(country)United Arab Emirates        0.088768   0.023624   3.758 0.000181
-## factor(country)United Kingdom              0.118267   0.019985   5.918 4.43e-09
-## factor(country)United States of America    0.128379   0.020232   6.345 3.32e-10
-## factor(country)Uruguay                     0.086791   0.018943   4.582 5.18e-06
-## factor(country)Uzbekistan                  0.065652   0.038154   1.721 0.085603
-## factor(country)Vanuatu                     0.066687   0.021492   3.103 0.001969
-## factor(country)Venezuela                   0.080481   0.019286   4.173 3.26e-05
-## factor(country)Vietnam                     0.060653   0.028801   2.106 0.035455
-## factor(country)Yemen                       0.023099   0.029006   0.796 0.426021
-## factor(country)Zambia                      0.006908   0.019149   0.361 0.718364
-## factor(country)Zimbabwe                    0.051875   0.018765   2.765 0.005802
-## factor(year)1959                          -0.043508   0.009267  -4.695 3.03e-06
-## factor(year)1964                          -0.025041   0.009030  -2.773 0.005652
-## factor(year)1969                          -0.023443   0.008554  -2.741 0.006235
-## factor(year)1974                          -0.018976   0.008430  -2.251 0.024592
-## factor(year)1979                          -0.015943   0.008106  -1.967 0.049486
-## factor(year)1984                          -0.034466   0.007994  -4.311 1.78e-05
-## factor(year)1989                          -0.024983   0.007986  -3.128 0.001808
-## factor(year)1994                          -0.034254   0.007952  -4.307 1.81e-05
-## factor(year)1999                          -0.014942   0.007925  -1.885 0.059643
-## factor(year)2004                          -0.014166   0.008411  -1.684 0.092466
-##                                              
-## (Intercept)                               ***
-## initial_Y                                 ***
-## UNDERVAL                                     
-## factor(country)Albania                    ** 
-## factor(country)Algeria                    ***
-## factor(country)Antigua                    ***
-## factor(country)Argentina                  ***
-## factor(country)Australia                  ***
-## factor(country)Austria                    ***
-## factor(country)Azerbaijan                 ** 
-## factor(country)Bahamas                    ***
-## factor(country)Bahrain                    ***
-## factor(country)Bangladesh                 .  
-## factor(country)Barbados                   ***
-## factor(country)Belgium                    ***
-## factor(country)Belize                     ***
-## factor(country)Benin                         
-## factor(country)Bermuda                    ***
-## factor(country)Bhutan                        
-## factor(country)Bolivia                    *  
-## factor(country)Bosnia and Herzegovina     ***
-## factor(country)Botswana                   ***
-## factor(country)Brazil                     ***
-## factor(country)Brunei                     ***
-## factor(country)Bulgaria                   *  
-## factor(country)Burkina Faso                  
-## factor(country)Burundi                       
-## factor(country)Cambodia                      
-## factor(country)Cameroon                   *  
-## factor(country)Canada                     ***
-## factor(country)Cape Verde                 ***
-## factor(country)Central African Republic      
-## factor(country)Chad                          
-## factor(country)Chile                      ***
-## factor(country)China                      ** 
-## factor(country)Colombia                   ***
-## factor(country)Comoros                       
-## factor(country)Congo, Democratic Republic .  
-## factor(country)Congo, Republic of            
-## factor(country)Costa Rica                 ***
-## factor(country)Cote d&#39;Ivoire              *  
-## factor(country)Croatia                    ***
-## factor(country)Cuba                       ***
-## factor(country)Cyprus                     ***
-## factor(country)Czech Republic             ***
-## factor(country)Denmark                    ***
-## factor(country)Djibouti                   *  
-## factor(country)Dominica                   ***
-## factor(country)Dominican Republic         ***
-## factor(country)Ecuador                    ***
-## factor(country)Egypt                      ***
-## factor(country)El Salvador                ***
-## factor(country)Equatorial Guinea          ***
-## factor(country)Eritrea                       
-## factor(country)Estonia                    ***
-## factor(country)Ethiopia                      
-## factor(country)Fiji                       *  
-## factor(country)Finland                    ***
-## factor(country)France                     ***
-## factor(country)Gabon                      ***
-## factor(country)Gambia, The                   
-## factor(country)Georgia                    ***
-## factor(country)Germany                    ***
-## factor(country)Ghana                      ***
-## factor(country)Greece                     ***
-## factor(country)Grenada                    ***
-## factor(country)Guatemala                  ** 
-## factor(country)Guinea                     .  
-## factor(country)Guinea-Bissau                 
-## factor(country)Haiti                         
-## factor(country)Honduras                   *  
-## factor(country)Hong Kong                  ***
-## factor(country)Hungary                    ***
-## factor(country)Iceland                    ***
-## factor(country)India                      ** 
-## factor(country)Indonesia                  ***
-## factor(country)Iran                       ***
-## factor(country)Ireland                    ***
-## factor(country)Israel                     ***
-## factor(country)Italy                      ***
-## factor(country)Jamaica                    ***
-## factor(country)Japan                      ***
-## factor(country)Jordan                     ***
-## factor(country)Kazakhstan                    
-## factor(country)Kenya                         
-## factor(country)Kiribati                      
-## factor(country)Korea, Dem. Rep.           *  
-## factor(country)Kuwait                     ***
-## factor(country)Kyrgyzstan                 *  
-## factor(country)Latvia                     ** 
-## factor(country)Lebanon                    ** 
-## factor(country)Lesotho                    *  
-## factor(country)Liberia                       
-## factor(country)Lithuania                  ***
-## factor(country)Luxembourg                 ***
-## factor(country)Macao                      ***
-## factor(country)Macedonia                  .  
-## factor(country)Madagascar                    
-## factor(country)Malawi                        
-## factor(country)Malaysia                   ***
-## factor(country)Maldives                   ***
-## factor(country)Mali                          
-## factor(country)Malta                      ***
-## factor(country)Mauritania                    
-## factor(country)Mauritius                  ***
-## factor(country)Mexico                     ***
-## factor(country)Micronesia, Fed. Sts.      ** 
-## factor(country)Moldova                       
-## factor(country)Mongolia                      
-## factor(country)Morocco                    ***
-## factor(country)Mozambique                    
-## factor(country)Namibia                    ** 
-## factor(country)Nepal                         
-## factor(country)Netherlands                ***
-## factor(country)Netherlands Antilles       ***
-## factor(country)New Zealand                ***
-## factor(country)Nicaragua                  ** 
-## factor(country)Niger                         
-## factor(country)Nigeria                       
-## factor(country)Norway                     ***
-## factor(country)Oman                       ***
-## factor(country)Pakistan                   *  
-## factor(country)Palau                      ***
-## factor(country)Panama                     ***
-## factor(country)Papua New Guinea           ***
-## factor(country)Paraguay                   ***
-## factor(country)Peru                       ** 
-## factor(country)Philippines                ** 
-## factor(country)Poland                     ***
-## factor(country)Portugal                   ***
-## factor(country)Puerto Rico                ***
-## factor(country)Qatar                      ***
-## factor(country)Romania                    ***
-## factor(country)Russia                     .  
-## factor(country)Rwanda                        
-## factor(country)Samoa                      *  
-## factor(country)Sao Tome and Principe         
-## factor(country)Saudi Arabia               ** 
-## factor(country)Senegal                       
-## factor(country)Serbia and Montenegro         
-## factor(country)Sierra Leone                  
-## factor(country)Singapore                  ***
-## factor(country)Slovak Republic            ***
-## factor(country)Slovenia                   ***
-## factor(country)Solomon Islands            *  
-## factor(country)Somalia                       
-## factor(country)South Africa               ***
-## factor(country)Spain                      ***
-## factor(country)Sri Lanka                  ** 
-## factor(country)St. Kitts &amp; Nevis          ***
-## factor(country)St. Lucia                  ***
-## factor(country)St. Vincent &amp; Grenadines   ***
-## factor(country)Sudan                         
-## factor(country)Suriname                   ***
-## factor(country)Swaziland                  ***
-## factor(country)Sweden                     ***
-## factor(country)Switzerland                ***
-## factor(country)Syria                      *  
-## factor(country)Taiwan                     ***
-## factor(country)Tajikistan                    
-## factor(country)Tanzania                      
-## factor(country)Thailand                   ***
-## factor(country)Togo                          
-## factor(country)Tonga                      ***
-## factor(country)Trinidad &amp; Tobago          ***
-## factor(country)Tunisia                    ***
-## factor(country)Turkey                     ***
-## factor(country)Turkmenistan               .  
-## factor(country)Uganda                        
-## factor(country)Ukraine                       
-## factor(country)United Arab Emirates       ***
-## factor(country)United Kingdom             ***
-## factor(country)United States of America   ***
-## factor(country)Uruguay                    ***
-## factor(country)Uzbekistan                 .  
-## factor(country)Vanuatu                    ** 
-## factor(country)Venezuela                  ***
-## factor(country)Vietnam                    *  
-## factor(country)Yemen                         
-## factor(country)Zambia                        
-## factor(country)Zimbabwe                   ** 
-## factor(year)1959                          ***
-## factor(year)1964                          ** 
-## factor(year)1969                          ** 
-## factor(year)1974                          *  
-## factor(year)1979                          *  
-## factor(year)1984                          ***
-## factor(year)1989                          ** 
-## factor(year)1994                          ***
-## factor(year)1999                          .  
-## factor(year)2004                          .  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.03516 on 1032 degrees of freedom
-##   (812 observations deleted due to missingness)
-## Multiple R-squared:  0.3484, Adjusted R-squared:  0.2285 
-## F-statistic: 2.905 on 190 and 1032 DF,  p-value: &lt; 2.2e-16</code></pre>
-<pre class="r"><code>reg4 = lm(Delta_GDP~initial_Y+UNDERVAL+factor(country)+factor(year), data=pwt62q[pwt62q$rgdpch&lt;6000,])
-summary(reg4)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = Delta_GDP ~ initial_Y + UNDERVAL + factor(country) + 
-##     factor(year), data = pwt62q[pwt62q$rgdpch &lt; 6000, ])
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -0.24067 -0.01777 -0.00080  0.01650  0.34032 
-## 
-## Coefficients:
-##                                            Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept)                                0.316998   0.049407   6.416 2.90e-10
-## initial_Y                                 -0.038740   0.005345  -7.247 1.36e-12
-## UNDERVAL                                   0.011467   0.004472   2.564 0.010592
-## factor(country)Albania                     0.079191   0.032844   2.411 0.016214
-## factor(country)Algeria                     0.081452   0.023056   3.533 0.000444
-## factor(country)Antigua                     0.084633   0.043608   1.941 0.052772
-## factor(country)Austria                     0.117482   0.045753   2.568 0.010486
-## factor(country)Azerbaijan                  0.121975   0.043287   2.818 0.004999
-## factor(country)Bangladesh                  0.036860   0.024121   1.528 0.127027
-## factor(country)Belize                      0.088956   0.024865   3.578 0.000376
-## factor(country)Benin                       0.020163   0.021704   0.929 0.353277
-## factor(country)Bhutan                      0.027924   0.025288   1.104 0.269953
-## factor(country)Bolivia                     0.049340   0.021361   2.310 0.021248
-## factor(country)Bosnia and Herzegovina      0.158007   0.043308   3.648 0.000288
-## factor(country)Botswana                    0.112699   0.026082   4.321 1.83e-05
-## factor(country)Brazil                      0.104887   0.025360   4.136 4.06e-05
-## factor(country)Burkina Faso                0.008099   0.021341   0.379 0.704466
-## factor(country)Burundi                    -0.002957   0.022478  -0.132 0.895396
-## factor(country)Cambodia                   -0.026576   0.025006  -1.063 0.288334
-## factor(country)Cameroon                    0.047281   0.022404   2.110 0.035249
-## factor(country)Cape Verde                  0.078490   0.022312   3.518 0.000469
-## factor(country)Central African Republic    0.012904   0.024394   0.529 0.597025
-## factor(country)Chad                       -0.012958   0.022435  -0.578 0.563765
-## factor(country)Chile                       0.072135   0.029433   2.451 0.014546
-## factor(country)China                       0.059412   0.020937   2.838 0.004703
-## factor(country)Colombia                    0.079219   0.021718   3.648 0.000288
-## factor(country)Comoros                     0.026767   0.022223   1.204 0.228901
-## factor(country)Congo, Democratic Republic -0.036049   0.023562  -1.530 0.126574
-## factor(country)Congo, Republic of          0.035261   0.022473   1.569 0.117189
-## factor(country)Costa Rica                  0.082156   0.029392   2.795 0.005358
-## factor(country)Cote d&#39;Ivoire               0.054187   0.022344   2.425 0.015606
-## factor(country)Cuba                        0.094452   0.026378   3.581 0.000371
-## factor(country)Djibouti                    0.061611   0.026180   2.353 0.018936
-## factor(country)Dominica                    0.102090   0.028615   3.568 0.000390
-## factor(country)Dominican Republic          0.087679   0.022032   3.980 7.78e-05
-## factor(country)Ecuador                     0.069237   0.021125   3.277 0.001110
-## factor(country)Egypt                       0.062909   0.020787   3.026 0.002585
-## factor(country)El Salvador                 0.069549   0.021658   3.211 0.001395
-## factor(country)Equatorial Guinea           0.071075   0.022291   3.188 0.001507
-## factor(country)Eritrea                    -0.026150   0.033189  -0.788 0.431067
-## factor(country)Ethiopia                    0.006993   0.021293   0.328 0.742715
-## factor(country)Fiji                        0.066801   0.024828   2.691 0.007338
-## factor(country)Gambia, The                 0.009473   0.022522   0.421 0.674191
-## factor(country)Georgia                     0.123504   0.032837   3.761 0.000186
-## factor(country)Ghana                       0.069354   0.021849   3.174 0.001582
-## factor(country)Greece                      0.131093   0.033591   3.903 0.000106
-## factor(country)Grenada                     0.083231   0.024694   3.371 0.000800
-## factor(country)Guatemala                   0.068167   0.021521   3.167 0.001619
-## factor(country)Guinea                      0.037122   0.021170   1.754 0.080032
-## factor(country)Guinea-Bissau               0.002381   0.022923   0.104 0.917291
-## factor(country)Haiti                       0.022590   0.024155   0.935 0.350062
-## factor(country)Honduras                    0.044448   0.020703   2.147 0.032210
-## factor(country)India                       0.049690   0.020689   2.402 0.016629
-## factor(country)Indonesia                   0.067440   0.021562   3.128 0.001850
-## factor(country)Iran                        0.086482   0.024000   3.603 0.000341
-## factor(country)Ireland                     0.089594   0.044354   2.020 0.043845
-## factor(country)Israel                      0.085515   0.045813   1.867 0.062461
-## factor(country)Italy                       0.118525   0.045463   2.607 0.009367
-## factor(country)Jamaica                     0.077719   0.021803   3.565 0.000394
-## factor(country)Japan                       0.122920   0.043934   2.798 0.005316
-## factor(country)Jordan                      0.084624   0.021913   3.862 0.000125
-## factor(country)Kenya                       0.025536   0.021119   1.209 0.227115
-## factor(country)Kiribati                    0.020633   0.024347   0.847 0.397102
-## factor(country)Korea, Dem. Rep.            0.052803   0.024265   2.176 0.029952
-## factor(country)Kyrgyzstan                  0.093971   0.043282   2.171 0.030326
-## factor(country)Lesotho                     0.039738   0.022327   1.780 0.075627
-## factor(country)Liberia                    -0.030308   0.024249  -1.250 0.211854
-## factor(country)Macedonia                   0.085033   0.043635   1.949 0.051810
-## factor(country)Madagascar                 -0.001415   0.021674  -0.065 0.947966
-## factor(country)Malawi                      0.003410   0.021090   0.162 0.871622
-## factor(country)Malaysia                    0.101903   0.024637   4.136 4.05e-05
-## factor(country)Maldives                    0.091303   0.023158   3.943 9.04e-05
-## factor(country)Mali                        0.013183   0.021809   0.604 0.545766
-## factor(country)Mauritania                  0.025075   0.024144   1.039 0.299447
-## factor(country)Mauritius                   0.081904   0.027103   3.022 0.002622
-## factor(country)Mexico                      0.096050   0.025395   3.782 0.000171
-## factor(country)Micronesia, Fed. Sts.       0.069642   0.024666   2.823 0.004914
-## factor(country)Moldova                     0.031721   0.032697   0.970 0.332379
-## factor(country)Mongolia                    0.042411   0.024619   1.723 0.085474
-## factor(country)Morocco                     0.078238   0.021335   3.667 0.000268
-## factor(country)Mozambique                  0.028115   0.022310   1.260 0.208100
-## factor(country)Namibia                     0.084005   0.025045   3.354 0.000848
-## factor(country)Nepal                       0.015324   0.022551   0.680 0.497066
-## factor(country)Nicaragua                   0.057641   0.021946   2.626 0.008856
-## factor(country)Niger                      -0.010662   0.021645  -0.493 0.622492
-## factor(country)Nigeria                     0.014372   0.020508   0.701 0.483724
-## factor(country)Pakistan                    0.042768   0.020587   2.077 0.038202
-## factor(country)Panama                      0.078186   0.023808   3.284 0.001085
-## factor(country)Papua New Guinea            0.093317   0.024459   3.815 0.000151
-## factor(country)Paraguay                    0.071425   0.021638   3.301 0.001023
-## factor(country)Peru                        0.064690   0.021756   2.973 0.003067
-## factor(country)Philippines                 0.060680   0.020854   2.910 0.003756
-## factor(country)Poland                      0.056720   0.043816   1.295 0.196006
-## factor(country)Portugal                    0.097295   0.029248   3.327 0.000935
-## factor(country)Romania                     0.098413   0.024774   3.973 8.01e-05
-## factor(country)Rwanda                      0.001068   0.022326   0.048 0.961862
-## factor(country)Samoa                       0.053706   0.024529   2.190 0.028957
-## factor(country)Sao Tome and Principe       0.015940   0.022985   0.693 0.488276
-## factor(country)Senegal                     0.021516   0.022290   0.965 0.334814
-## factor(country)Serbia and Montenegro       0.019869   0.043948   0.452 0.651361
-## factor(country)Sierra Leone               -0.027038   0.024165  -1.119 0.263648
-## factor(country)Singapore                   0.137723   0.043841   3.141 0.001767
-## factor(country)Solomon Islands             0.052792   0.024190   2.182 0.029482
-## factor(country)Somalia                    -0.015501   0.023107  -0.671 0.502594
-## factor(country)South Africa                0.044894   0.028862   1.555 0.120372
-## factor(country)Spain                       0.101411   0.033823   2.998 0.002831
-## factor(country)Sri Lanka                   0.053605   0.020716   2.588 0.009906
-## factor(country)St. Kitts &amp; Nevis           0.080802   0.043470   1.859 0.063560
-## factor(country)St. Lucia                   0.102477   0.033041   3.101 0.002019
-## factor(country)St. Vincent &amp; Grenadines    0.115027   0.028425   4.047 5.90e-05
-## factor(country)Sudan                       0.007901   0.024301   0.325 0.745186
-## factor(country)Suriname                    0.056297   0.026359   2.136 0.033113
-## factor(country)Swaziland                   0.082018   0.033160   2.473 0.013667
-## factor(country)Syria                       0.054870   0.022873   2.399 0.016758
-## factor(country)Taiwan                      0.108698   0.024747   4.392 1.33e-05
-## factor(country)Tajikistan                  0.007713   0.043275   0.178 0.858606
-## factor(country)Tanzania                    0.004040   0.022962   0.176 0.860412
-## factor(country)Thailand                    0.078159   0.022348   3.497 0.000506
-## factor(country)Togo                        0.005291   0.021582   0.245 0.806426
-## factor(country)Tonga                       0.081263   0.024230   3.354 0.000849
-## factor(country)Trinidad &amp; Tobago           0.153523   0.044204   3.473 0.000553
-## factor(country)Tunisia                     0.087033   0.023492   3.705 0.000232
-## factor(country)Turkey                      0.087847   0.021240   4.136 4.06e-05
-## factor(country)Uganda                      0.009765   0.021239   0.460 0.645833
-## factor(country)Ukraine                     0.028323   0.043798   0.647 0.518099
-## factor(country)Uruguay                     0.074840   0.034484   2.170 0.030388
-## factor(country)Uzbekistan                  0.070531   0.043299   1.629 0.103873
-## factor(country)Vanuatu                     0.077388   0.024523   3.156 0.001684
-## factor(country)Vietnam                     0.061495   0.032635   1.884 0.060016
-## factor(country)Yemen                       0.031601   0.032992   0.958 0.338538
-## factor(country)Zambia                      0.009305   0.021727   0.428 0.668622
-## factor(country)Zimbabwe                    0.056852   0.021364   2.661 0.008004
-## factor(year)1959                          -0.074842   0.015616  -4.793 2.09e-06
-## factor(year)1964                          -0.059100   0.015358  -3.848 0.000132
-## factor(year)1969                          -0.060183   0.014936  -4.029 6.34e-05
-## factor(year)1974                          -0.056131   0.014747  -3.806 0.000156
-## factor(year)1979                          -0.050972   0.014296  -3.566 0.000393
-## factor(year)1984                          -0.062824   0.014163  -4.436 1.10e-05
-## factor(year)1989                          -0.064017   0.014184  -4.513 7.73e-06
-## factor(year)1994                          -0.079291   0.014243  -5.567 3.96e-08
-## factor(year)1999                          -0.052718   0.014414  -3.657 0.000278
-## factor(year)2004                          -0.044644   0.016128  -2.768 0.005820
-##                                              
-## (Intercept)                               ***
-## initial_Y                                 ***
-## UNDERVAL                                  *  
-## factor(country)Albania                    *  
-## factor(country)Algeria                    ***
-## factor(country)Antigua                    .  
-## factor(country)Austria                    *  
-## factor(country)Azerbaijan                 ** 
-## factor(country)Bangladesh                    
-## factor(country)Belize                     ***
-## factor(country)Benin                         
-## factor(country)Bhutan                        
-## factor(country)Bolivia                    *  
-## factor(country)Bosnia and Herzegovina     ***
-## factor(country)Botswana                   ***
-## factor(country)Brazil                     ***
-## factor(country)Burkina Faso                  
-## factor(country)Burundi                       
-## factor(country)Cambodia                      
-## factor(country)Cameroon                   *  
-## factor(country)Cape Verde                 ***
-## factor(country)Central African Republic      
-## factor(country)Chad                          
-## factor(country)Chile                      *  
-## factor(country)China                      ** 
-## factor(country)Colombia                   ***
-## factor(country)Comoros                       
-## factor(country)Congo, Democratic Republic    
-## factor(country)Congo, Republic of            
-## factor(country)Costa Rica                 ** 
-## factor(country)Cote d&#39;Ivoire              *  
-## factor(country)Cuba                       ***
-## factor(country)Djibouti                   *  
-## factor(country)Dominica                   ***
-## factor(country)Dominican Republic         ***
-## factor(country)Ecuador                    ** 
-## factor(country)Egypt                      ** 
-## factor(country)El Salvador                ** 
-## factor(country)Equatorial Guinea          ** 
-## factor(country)Eritrea                       
-## factor(country)Ethiopia                      
-## factor(country)Fiji                       ** 
-## factor(country)Gambia, The                   
-## factor(country)Georgia                    ***
-## factor(country)Ghana                      ** 
-## factor(country)Greece                     ***
-## factor(country)Grenada                    ***
-## factor(country)Guatemala                  ** 
-## factor(country)Guinea                     .  
-## factor(country)Guinea-Bissau                 
-## factor(country)Haiti                         
-## factor(country)Honduras                   *  
-## factor(country)India                      *  
-## factor(country)Indonesia                  ** 
-## factor(country)Iran                       ***
-## factor(country)Ireland                    *  
-## factor(country)Israel                     .  
-## factor(country)Italy                      ** 
-## factor(country)Jamaica                    ***
-## factor(country)Japan                      ** 
-## factor(country)Jordan                     ***
-## factor(country)Kenya                         
-## factor(country)Kiribati                      
-## factor(country)Korea, Dem. Rep.           *  
-## factor(country)Kyrgyzstan                 *  
-## factor(country)Lesotho                    .  
-## factor(country)Liberia                       
-## factor(country)Macedonia                  .  
-## factor(country)Madagascar                    
-## factor(country)Malawi                        
-## factor(country)Malaysia                   ***
-## factor(country)Maldives                   ***
-## factor(country)Mali                          
-## factor(country)Mauritania                    
-## factor(country)Mauritius                  ** 
-## factor(country)Mexico                     ***
-## factor(country)Micronesia, Fed. Sts.      ** 
-## factor(country)Moldova                       
-## factor(country)Mongolia                   .  
-## factor(country)Morocco                    ***
-## factor(country)Mozambique                    
-## factor(country)Namibia                    ***
-## factor(country)Nepal                         
-## factor(country)Nicaragua                  ** 
-## factor(country)Niger                         
-## factor(country)Nigeria                       
-## factor(country)Pakistan                   *  
-## factor(country)Panama                     ** 
-## factor(country)Papua New Guinea           ***
-## factor(country)Paraguay                   ** 
-## factor(country)Peru                       ** 
-## factor(country)Philippines                ** 
-## factor(country)Poland                        
-## factor(country)Portugal                   ***
-## factor(country)Romania                    ***
-## factor(country)Rwanda                        
-## factor(country)Samoa                      *  
-## factor(country)Sao Tome and Principe         
-## factor(country)Senegal                       
-## factor(country)Serbia and Montenegro         
-## factor(country)Sierra Leone                  
-## factor(country)Singapore                  ** 
-## factor(country)Solomon Islands            *  
-## factor(country)Somalia                       
-## factor(country)South Africa                  
-## factor(country)Spain                      ** 
-## factor(country)Sri Lanka                  ** 
-## factor(country)St. Kitts &amp; Nevis          .  
-## factor(country)St. Lucia                  ** 
-## factor(country)St. Vincent &amp; Grenadines   ***
-## factor(country)Sudan                         
-## factor(country)Suriname                   *  
-## factor(country)Swaziland                  *  
-## factor(country)Syria                      *  
-## factor(country)Taiwan                     ***
-## factor(country)Tajikistan                    
-## factor(country)Tanzania                      
-## factor(country)Thailand                   ***
-## factor(country)Togo                          
-## factor(country)Tonga                      ***
-## factor(country)Trinidad &amp; Tobago          ***
-## factor(country)Tunisia                    ***
-## factor(country)Turkey                     ***
-## factor(country)Uganda                        
-## factor(country)Ukraine                       
-## factor(country)Uruguay                    *  
-## factor(country)Uzbekistan                    
-## factor(country)Vanuatu                    ** 
-## factor(country)Vietnam                    .  
-## factor(country)Yemen                         
-## factor(country)Zambia                        
-## factor(country)Zimbabwe                   ** 
-## factor(year)1959                          ***
-## factor(year)1964                          ***
-## factor(year)1969                          ***
-## factor(year)1974                          ***
-## factor(year)1979                          ***
-## factor(year)1984                          ***
-## factor(year)1989                          ***
-## factor(year)1994                          ***
-## factor(year)1999                          ***
-## factor(year)2004                          ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.03974 on 581 degrees of freedom
-##   (775 observations deleted due to missingness)
-## Multiple R-squared:   0.36,  Adjusted R-squared:  0.2047 
-## F-statistic: 2.318 on 141 and 581 DF,  p-value: 3.385e-12</code></pre>
+#summary(reg3)
+
+reg4 = lm(Delta_GDP~initial_Y+UNDERVAL+factor(country)+factor(year), data=pwt62q[pwt62q$rgdpch&lt;6000,])
+#summary(reg4)
+
+stargazer(&#39;PWT 6.1&#39; = reg3, &quot;PWT 9.1&quot; = reg4, title=&quot;PWT6.2&quot;, type=&quot;html&quot;,
+          column.labels = c(&#39;PWT 6.2&#39;, &#39;PWT 9.1&#39;),
+          digits = 2, omit =c(omit1,omit2))</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>PWT6.2</strong>
+</caption>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+Delta_GDP
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+PWT 6.2
+</td>
+<td>
+PWT 9.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+initial_Y
+</td>
+<td>
+-0.03<sup>***</sup>
+</td>
+<td>
+-0.04<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.003)
+</td>
+<td>
+(0.01)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+UNDERVAL
+</td>
+<td>
+0.004
+</td>
+<td>
+0.01<sup>**</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.003)
+</td>
+<td>
+(0.004)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.23<sup>***</sup>
+</td>
+<td>
+0.32<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.03)
+</td>
+<td>
+(0.05)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+1,223
+</td>
+<td>
+723
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.35
+</td>
+<td>
+0.36
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.23
+</td>
+<td>
+0.20
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.04 (df = 1032)
+</td>
+<td>
+0.04 (df = 581)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+2.90<sup>***</sup> (df = 190; 1032)
+</td>
+<td>
+2.32<sup>***</sup> (df = 141; 581)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
 </div>
 
 
