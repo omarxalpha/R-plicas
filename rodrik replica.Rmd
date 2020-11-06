@@ -5,6 +5,7 @@ date: "31/8/2020"
 output:
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 En el documento de 2008 de Dani Rodrik ( _The Real Exchange Rate and Economic Growth_ ), se vislumbra un análisis sobre los mecanismos que entran en juego para que una depreciación en el Tipo de Cambio Real ( _TCR_, en adelante) pueda mostrar un efecto positivo en el producto. La primera parte de la propuesta de Rodrik tiene un caracter puramente empirico. 
@@ -23,6 +24,7 @@ library(pwt9) #Contiene las últimas actualizaciones de la PWT
 library(dplyr) #Libreria utilizada para la manipulación de datos 
 library(ggplot2) #Libreria para generar gráficos
 library(stringr)
+library(stargazer)
 data("pwt6.2") #Base de datos utilizada por Dani Rodrik 
 data("pwt9.1") #Base de datos con la finalidad de actualizar el documento 
 ```
@@ -43,7 +45,7 @@ En la siguientes subsecciones el objetivo es realizar estas estimaciones con los
 
 La siguiente parte del código muestra las manipulaciones necesarias para realizar las especificaciones econométricas en ela _PWT6.2_.
 
-```{r cars}
+```{r, results='asis', message=FALSE}
 #La siguiente parte del código utiliza la libreria dplyr, hay abudantes recursos en la red acerca del '%>%'. LA función mutate nos ayuda a generar nuevas variables dentro del Data Frame 
 pwt6.2 <- pwt6.2 %>%
   mutate( lnRER = log(p^-1), #Como el autor lo señala, 'p' es es una manera más completa de calcular lnRER
@@ -62,19 +64,35 @@ pwt62q = pwt6.2 %>%
   filter(str_sub(year,4) %in% c("4", "9"))
 #Realiza la regresión 
 reg1 <- lm(lnRER ~ lnRGDPCH + factor(year), data = pwt62q)
-summary(reg1)
 ```
+
 
 ### PWT 9.1
 
-```{r warning=FALSE}
+```{r warning=FALSE, results='asis', message=FALSE}
 pwt91 <- pwt9.1 %>%
   filter(str_sub(year,4) %in% c("4", "9"))%>%
   mutate(rgdpch = rgdpna/pop,
          lnRGDPCH = log(rgdpch),
        lnRER = log((pl_gdpo^-1)))
 reg2 <- lm(lnRER ~ lnRGDPCH + factor(year), data = pwt91)
-summary(reg2)
+#summary(reg2)
+
+stargazer('PWT 6.1' = reg1, "PWT 9.1" = reg2, title="PWT6.2", type="html",
+          column.labels = c('PWT 6.2', 'PWT 9.1'),
+          out = "./output.html",digits = 2, omit = c('factor\\(year\\)1959',
+                                                     'factor\\(year\\)1964',
+                                                     'factor\\(year\\)1969',
+                                                     'factor\\(year\\)1974',
+                                                     'factor\\(year\\)1979',
+                                                     'factor\\(year\\)1984',
+                                                     'factor\\(year\\)1989',
+                                                     'factor\\(year\\)1994',
+                                                     'factor\\(year\\)1999',
+                                                     'factor\\(year\\)2004',
+                                                     'factor\\(year\\)2009',
+                                                     'factor\\(year\\)2014'))
+
 ```
 
 ## UNDERVAL
